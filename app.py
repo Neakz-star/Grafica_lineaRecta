@@ -10,8 +10,8 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
-class RectaApp(tk.Tk):
-    TITLE_TEXT = "Función lineal"
+class Recta(tk.Tk):
+    titulo = "Función lineal"
 
     def __init__(self):
         super().__init__()
@@ -21,11 +21,11 @@ class RectaApp(tk.Tk):
 
         self.configure(bg="#f5f5f5")
 
-        self._build_layout()
-        self._build_plot()
-        self.plot_line()
+        self.construir_recta()
+        self.construir_grafica()
+        self.graficar()
 
-    def _build_layout(self):
+    def construir_recta(self):
         self.columnconfigure(1, weight=1)
         self.rowconfigure(0, weight=1)
 
@@ -58,10 +58,10 @@ class RectaApp(tk.Tk):
         self.entry_b.grid(row=5, column=0, padx=16, pady=(0, 14), sticky="w")
         self.entry_b.insert(0, "0")
 
-        tk.Button(left_panel, text="Graficar", command=self.plot_line, width=16, bg="#4f8cff", fg="white", activebackground="#3572d6", activeforeground="white", relief="flat").grid(
+        tk.Button(left_panel, text="Graficar", command=self.graficar, width=16, bg="#4f8cff", fg="white", activebackground="#3572d6", activeforeground="white", relief="flat").grid(
             row=6, column=0, padx=16, pady=(0, 8), sticky="w"
         )
-        tk.Button(left_panel, text="Limpiar", command=self.clear_plot, width=16, bg="#ffb36b", fg="white", activebackground="#e59447", activeforeground="white", relief="flat").grid(
+        tk.Button(left_panel, text="Limpiar", command=self.limpiar, width=16, bg="#ffb36b", fg="white", activebackground="#e59447", activeforeground="white", relief="flat").grid(
             row=7, column=0, padx=16, pady=(0, 14), sticky="w"
         )
 
@@ -79,12 +79,12 @@ class RectaApp(tk.Tk):
 
         self.plot_container = right_panel
 
-    def _build_plot(self):
+    def construir_grafica(self):
         self.figure = Figure(figsize=(7, 5), dpi=100)
         self.ax = self.figure.add_subplot(111)
         self.ax.set_facecolor("#fff7ec")
         self.ax.grid(True, linestyle="--", linewidth=0.8, alpha=0.6)
-        self.ax.set_title(self.TITLE_TEXT)
+        self.ax.set_title(self.titulo)
         self.ax.set_xlabel("x")
         self.ax.set_ylabel("f(x)")
         self.ax.axhline(0, color="black", linewidth=0.8)
@@ -102,7 +102,7 @@ class RectaApp(tk.Tk):
             raise ValueError("Los valores de m y b deben ser números válidos.")
         return m, b
 
-    def plot_line(self):
+    def graficar(self):
         try:
             m, b = self._get_values()
         except ValueError as error:
@@ -117,7 +117,7 @@ class RectaApp(tk.Tk):
         self.ax.plot(x, y, color="#d62728", linewidth=2, label=f"f(x) = {m:g}x + {b:g}")
         self.ax.axhline(0, color="black", linewidth=0.8)
         self.ax.axvline(0, color="black", linewidth=0.8)
-        self.ax.set_title(self.TITLE_TEXT)
+        self.ax.set_title(self.titulo)
         self.ax.set_xlabel("x")
         self.ax.set_ylabel("f(x)")
         self.ax.grid(True, linestyle="--", linewidth=0.8, alpha=0.6)
@@ -127,7 +127,7 @@ class RectaApp(tk.Tk):
         self.result_label.configure(text=f"f(x) = {m:g}x + {b:g}")
         self.canvas.draw()
 
-    def clear_plot(self):
+    def limpiar(self):
         self.entry_m.delete(0, tk.END)
         self.entry_b.delete(0, tk.END)
         self.entry_m.insert(0, "1")
@@ -136,7 +136,7 @@ class RectaApp(tk.Tk):
         self.ax.clear()
         self.ax.set_facecolor("#fff7ec")
         self.ax.grid(True, linestyle="--", linewidth=0.8, alpha=0.6)
-        self.ax.set_title(self.TITLE_TEXT)
+        self.ax.set_title(self.titulo)
         self.ax.set_xlabel("x")
         self.ax.set_ylabel("f(x)")
         self.ax.axhline(0, color="black", linewidth=0.8)
@@ -145,5 +145,5 @@ class RectaApp(tk.Tk):
 
 
 if __name__ == "__main__":
-    app = RectaApp()
+    app = Recta()
     app.mainloop()
